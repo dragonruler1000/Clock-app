@@ -1,14 +1,25 @@
-from datetime import datetime, timezone, timedelta
-now = datetime.now()
-dt = datetime.now(timezone(timedelta(hours=0, minutes=0)))
-format = input("What time format do you prefer (12hr or 24hr): ")
-if format == "24hr":
-    utc = dt.strftime("%H:%M:%S")
-    t = now.strftime("%H:%M:%S")
-    print("Local: " + t)
-    print("UTC-0: " + utc)  
-elif format == "12hr":
-    t = datetime.strftime(now, "%I:%M:%S %p")
-    utc = datetime.strftime(dt, "%I:%M:%S %p")
-    print("Local: " + t)
-    print("UTC-0: " + utc)
+from timeformats import twentyfour, twelve, twentryfour_date, twelve_date, iso, iso_date
+
+FORMATS = {
+    "1": ("24 hour", twentyfour),
+    "2": ("12 hour", twelve),
+    "3": ("24 hour with date", twentryfour_date),
+    "4": ("12 hour with date", twelve_date),
+    "5": ("ISO format", iso),
+    "6": ("ISO date", iso_date)
+}
+loop = 1
+
+while loop >= 1:
+    print("Advalible formats:")
+    for key, (name, _) in FORMATS.items():
+        print(f"{key}: {name}")
+
+    choice = input("What time format do you prefer or q to quit: ")
+    if choice in FORMATS:
+        name, func = FORMATS[choice]
+        func()
+    elif choice == "q":
+        loop = 0
+    else:
+        print("Invalid choice")

@@ -1,4 +1,5 @@
 from timeformats import twentyfour, twelve, twentryfour_date, twelve_date, iso, iso_date, iso_week_date, unix, jd, sit, frt, hex, bi, percent, gmst
+from weather import hub
 
 FORMATS = {
     "1": ("24 hour", twentyfour),
@@ -38,7 +39,8 @@ def clock():
                 print()
 
 Modes = {
-    "1": ("Clock", clock)
+    "1": ("Clock", clock),
+    "2": ("Weather", hub)
 }
 
 loop = 1

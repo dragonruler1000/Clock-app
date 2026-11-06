@@ -30,7 +30,8 @@ def clock():
             print()
             if choice in FORMATS:
                 name, func = FORMATS[choice]
-                func()
+                t =func()
+                print(t)
                 print()
             elif (choice == "q" or choice == "Q"):
                 break
@@ -38,9 +39,20 @@ def clock():
                 print("Invalid choice")
                 print()
 
+def weather():
+    address = input("Where do you want the weather for. eg Athens, AL: ")
+    unit= input("What tempature uint do you prefer (f or c):")
+    tz, cords, diff, elev, time, ct, hd = hub(address, unit)
+    print("Timezone: ", tz)
+    print(cords)
+    print(diff)
+    print(elev)
+    print(time)
+    print(ct)
+    print("\nHourly data\n",hd)
 Modes = {
     "1": ("Clock", clock),
-    "2": ("Weather", hub)
+    "2": ("Weather", weather)
 }
 
 loop = 1

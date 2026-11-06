@@ -26,15 +26,15 @@ def weather(lat, long, temp_unit, tz):
     }
     responces = openmeteo.weather_api(url, params=params)
     response = responces[0]
-    print(f"Coordinates: {response.Latitude()}°N {response.Longitude()}°E")
-    print(f"Elevation: {response.Elevation()} m asl")
-    print(f"Timezone difference to GMT+0: {response.UtcOffsetSeconds()}s")
+    cords = str(f"Coordinates: {response.Latitude()}°N {response.Longitude()}°E")
+    elev = str(f"Elevation: {response.Elevation()} m asl")
+    diff = str(f"Timezone difference to GMT+0: {response.UtcOffsetSeconds()}s")
 
     current = response.Current()
     current_apparent_temperature = current.Variables(0).Value()
 
-    print(f"\nCurrent time: {current.Time()}")
-    print(f"Current apparent temperature: {current_apparent_temperature}")
+    time=str(f"\nCurrent time: {current.Time()}")
+    ct = str(f"Current apparent temperature: {current_apparent_temperature}")
 
     hourly = response.Hourly()
     hourly_temperature_2m = hourly.Variables(0).ValuesAsNumpy()
@@ -57,13 +57,13 @@ def weather(lat, long, temp_unit, tz):
     hourly_data["wind_speed_10m"] = hourly_wind_speed_10m
     hourly_data["wind_direction_10m"] = hourly_wind_direction_10m
 
-    hourly_dataframe = pd.DataFrame(data=hourly_data)
-    print("\nHourly data\n", hourly_dataframe)
+    hd = pd.DataFrame(data=hourly_data)
+    # ("\nHourly data\n", hourly_dataframe)
+    return(cords, elev, diff, time, ct, hd)
 
-def hub():
-    print("This option is being worked on and may not have all features working yet")
-    address = input("Where do you want the weather for. eg Athens, AL: ")
-    unit= input("What tempature uint do you prefer (f or c):")
+def hub(address, unit):
+    # address = input("Where do you want the weather for. eg Athens, AL: ")
+    # unit= input("What tempature uint do you prefer (f or c):")
     if unit == "f" or unit == "F":
         tempunit = "fahrenheit"
     elif unit == "c" or unit == "C":
@@ -71,7 +71,14 @@ def hub():
     location = app.geocode(address)
     lat = location.latitude
     long = location.longitude
-    timezone = tz_finder.timezone_at(lng=long, lat=lat)
-    print("Timezone: ", timezone)
-    weather(lat, long, tempunit, timezone)
+    tz = tz_finder.timezone_at(lng=long, lat=lat)
+    # print("Timezone: ", timezone)
+    cords, diff, elev, time, ct, hd = weather(lat, long, tempunit, tz)
+    return(tz, cords, diff, elev, time, ct, hd)
+    # print(cords)
+    # print(diff)
+    # print(elev)
+    # print(time)
+    # print(ct)
+    # print("\nHourly data\n", hd)
     

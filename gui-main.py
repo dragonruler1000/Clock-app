@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 from timeformats import twentyfour, twelve, twentryfour_date, twelve_date, iso, iso_date, iso_week_date, unix, jd, sit, frt, hex, bi, percent, gmst
+from weather import hub
 
 FORMATS = {
     "1": ("24 hour", twentyfour),
@@ -22,7 +23,7 @@ FORMATS = {
 
 FORMAT_FUNCS = {name: func for name, func in FORMATS.values()}
 
-UPDATE_MS = 2000
+UPDATE_MS = 50
 
 root = Tk(className="dragonclock")
 root.title("Dragon Clock")
@@ -33,7 +34,6 @@ mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
 exit = ttk.Button(mainframe, text='exit', command=root.destroy)
 exit.grid(column=3, row = 0, sticky=(N, E))
 
-
 formats = ttk.Combobox(mainframe, state="readonly", width=28,
                        values=[name for name, _ in FORMATS.values()])
 formats.current(0)
@@ -41,6 +41,74 @@ formats.grid(column=0, row=0, sticky=(W, E))
 
 time_label = ttk.Label(mainframe, text="")
 time_label.grid(column=0, row=1, sticky=(W, E), pady=(10,0))
+
+addr_label = ttk.Label(mainframe, text="Enter the location you want the weather for:  ")
+addr_label.grid(column=0, row=2, sticky=(W,E))
+
+address = StringVar()
+location = ttk.Entry(mainframe, textvariable=address)
+location.grid(column=1, row=2, sticky=(W,E))
+
+unitsel = ttk.Frame(mainframe, padding=(3, 3, 12, 12))
+unitsel.grid(column=0, row=3, sticky=(N, W, E, S))
+
+unit_label = ttk.Label(unitsel, text="What unit do you want the temprature in:  ")
+unit_label.grid(column=0, row=0,sticky=(W,E))
+
+unit = StringVar()
+f = ttk.Radiobutton(unitsel, text="fahrenheit", variable=unit, value="f")
+f.grid(column=1, row=0,sticky=(W,E))
+c = ttk.Radiobutton(unitsel, text="celsius", variable=unit, value="c")
+c.grid(column=1, row=1, sticky=(W,E))
+
+tz = cords = diff = elev =  time = ct = hd = None
+
+def get_weather():
+    global tz, cords, diff, elev, time, ct, hd
+    addr = address.get().strip()   # use the StringVar you already made
+    u = unit.get()
+    if not addr or not u:
+        timezone.config(text="Enter a location and pick a unit")
+        return
+    try:
+        tz, cords, diff, elev, time, ct, hd = hub(addr, u)
+    except ValueError as e:
+        timezone.config(text=str(e))
+        return
+    timezone.config(text=tz)
+    wcords.config(text=cords)
+    tdiff.config(text=diff)
+    welev.config(text=elev)
+    wtime.config(text=time)
+    wtemp.config(text=ct)
+    hourly_data.config(text=hd)
+
+weather = ttk.Button(mainframe, text="Get Weather", command=get_weather)
+weather.grid(column=1, row=4, sticky=(W,E))
+
+weatheresults = ttk.Frame(mainframe, padding=(3, 3, 12, 12))
+weatheresults.grid(column=0, row=5, sticky=(N, W, E, S))
+
+timezone = ttk.Label(weatheresults, text="")
+timezone.grid(column=0, row =0, sticky=(W,E))
+
+wcords = ttk.Label(weatheresults, text="")
+wcords.grid(column=0, row =1, sticky=(W,E))
+
+welev = ttk.Label(weatheresults, text="")
+welev.grid(column=0, row =2, sticky=(W,E))
+
+tdiff = ttk.Label(weatheresults, text="")
+tdiff.grid(column=0, row =3, sticky=(W,E))
+
+wtime = ttk.Label(weatheresults, text="")
+wtime.grid(column=0, row =4, sticky=(W,E))
+
+wtemp = ttk.Label(weatheresults, text="")
+wtemp.grid(column=0, row =5, sticky=(W,E))
+
+hourly_data = ttk.Label(weatheresults, text="")
+hourly_data.grid(column=0, row =6, sticky=(W,E))
 
 def update_time():
     func = FORMAT_FUNCS.get(formats.get())

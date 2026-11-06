@@ -50,6 +50,7 @@ def weather():
     print(time)
     print(ct)
     print("\nHourly data\n",hd)
+    
 Modes = {
     "1": ("Clock", clock),
     "2": ("Weather", weather)

@@ -37,7 +37,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Build executable
-        run: pyinstaller --onefile main.py -c -n clock-app-${{ matrix.name }}
+        run: pyinstaller --onefile gui-main.py -c -n clock-app-${{ matrix.name }}
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4

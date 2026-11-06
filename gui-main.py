@@ -24,14 +24,14 @@ FORMAT_FUNCS = {name: func for name, func in FORMATS.values()}
 
 UPDATE_MS = 2000
 
-root = Tk()
+root = Tk(className="dragonclock")
 root.title("Dragon Clock")
 
 mainframe = ttk.Frame(root, padding=(3, 3, 12, 12))
 mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
 
-button = ttk.Button(mainframe, text='exit', command=exit)
-button.grid(column=3, row = 0, sticky=(N, E))
+exit = ttk.Button(mainframe, text='exit', command=root.destroy)
+exit.grid(column=3, row = 0, sticky=(N, E))
 
 
 formats = ttk.Combobox(mainframe, state="readonly", width=28,

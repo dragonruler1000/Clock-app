@@ -2,7 +2,8 @@
 A Clock, calendar, and weather app written in python
 ## Installation
 ### Recommended
-Download the release for your system from the [latest release](https://github.com/dragonruler1000/Clock-app/releases/latest). On linux you will need to mark it as executible `chmod +x clock-app-linux` then run it from the terminal `./clock-app-linux`.
+Download the release for your system from the [latest release](https://github.com/dragonruler1000/Clock-app/releases/latest).
+On linux you will need to mark it as executible `chmod +x clock-app-linux` then run it from the terminal `./clock-app-linux` make sure you have fontconfig installed sense it uses the system fontconfig instead of a bundled version.
 ### From source
 Clone the repo, make a venv, install the requirements and run the app using python
 ```

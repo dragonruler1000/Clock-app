@@ -1,12 +1,12 @@
 # -*- mode: python ; coding: utf-8 -*-
-import sys
+import os, sys
 
 
 a = Analysis(
     ['gui-main.py'],
     pathex=[],
     binaries=[],
-    datas=[],
+    datas=[('themes', 'themes')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -27,7 +27,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='clock-app' + os.environ.get('MATRIX_NAME', 'local'),
+    name='clock-app-' + os.environ.get('MATRIX_NAME', 'local'),
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

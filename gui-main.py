@@ -28,6 +28,9 @@ UPDATE_MS = 50
 root = Tk(className="dragonclock")
 root.title("Dragon Clock")
 
+root.tk.call('source', 'themes/awthemes-10.4.0/awdark.tcl')
+root.tk.call('source', 'themes/awthemes-10.4.0/awlight.tcl')
+
 mainframe = ttk.Frame(root, padding=(3, 3, 12, 12))
 mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
 
@@ -117,6 +120,20 @@ def update_time():
     # Reschedule itself; this returns immediately, nothing blocks
     root.after(UPDATE_MS, update_time)
 
+s = ttk.Style()
+def apply_theme():
+    s.theme_use(theme.get())
+
+themesel = ttk.Frame(mainframe, padding=(3, 3, 12, 12))
+themesel.grid(column=2, row=0, sticky=(N, W, E, S))
+
+theme = StringVar(value="awdark")
+dark = ttk.Radiobutton(themesel, text="Dark", variable=theme, value="awdark", command=apply_theme)
+dark.grid(column=1, row=0)
+light = ttk.Radiobutton(themesel, text="Light", variable=theme, value="awlight", command=apply_theme)
+light.grid(column=1, row=1)
+
+apply_theme()
 
 root.columnconfigure(0, weight=1)
 root.rowconfigure(0, weight=1)

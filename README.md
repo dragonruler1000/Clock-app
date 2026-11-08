@@ -16,3 +16,7 @@ python gui-main.py
 - see the current temp
 - see the location (latitude, longitude, and elevation)
 - see the forcast of the next 3 days with temprature, precipitation, windspeed and direction.
+- light mode and dark mode
+## Screen shots
+<img src="images/lightmode.png" title="Light mode" alt="Light mode" width="49%" height="auto">
+<img src="images/darkmode.png" title="Dark mode" alt="Dark mode" width="49%" height="auto">

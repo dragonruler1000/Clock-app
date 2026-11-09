@@ -1,12 +1,15 @@
 # -*- mode: python ; coding: utf-8 -*-
 import os, sys
+from PyInstaller.utils.hooks import collect_data_files
 
+datas = [('themes/', 'themes')]
+datas += collect_data_files('certifi')
 
 a = Analysis(
     ['gui-main.py'],
     pathex=[],
     binaries=[],
-    datas=collect_data_files('certifi') + [('themes/', 'themes')],
+    datas=datas,
     hiddenimports=['certifi'],
     hookspath=[],
     hooksconfig={},

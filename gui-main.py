@@ -2,6 +2,9 @@ from tkinter import *
 from tkinter import ttk
 from timeformats import twentyfour, twelve, twentryfour_date, twelve_date, iso, iso_date, iso_week_date, unix, jd, sit, frt, hex, bi, percent, gmst
 from weather import hub
+import os, sys
+
+base = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
 
 FORMATS = {
     "1": ("24 hour", twentyfour),
@@ -28,8 +31,8 @@ UPDATE_MS = 50
 root = Tk(className="dragonclock")
 root.title("Dragon Clock")
 
-root.tk.call('source', 'themes/awthemes-10.4.0/awdark.tcl')
-root.tk.call('source', 'themes/awthemes-10.4.0/awlight.tcl')
+root.tk.call('source', os.path.join(base, 'themes', 'awthemes-10.4.0', 'awdark.tcl'))
+root.tk.call('source', os.path.join(base, 'themes', 'awthemes-10.4.0', 'awlight.tcl'))
 
 mainframe = ttk.Frame(root, padding=(3, 3, 12, 12))
 mainframe.grid(column=0, row=0, sticky=(N, W, E, S))

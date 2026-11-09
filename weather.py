@@ -6,7 +6,11 @@ import requests_cache
 from retry_requests import retry
 from timezonefinder import TimezoneFinder
 
-app = Nominatim(user_agent="Weather-Clock")
+import ssl, certifi
+
+ctx = ssl.create_default_context(cafile=certifi.where())
+
+app = Nominatim(user_agent="Weather-Clock", ssl_context=ctx)
 cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
 retry_session = retry(cache_session, retries=5, backoff_factor=0.2)
 openmeteo = openmeteo_requests.Client(session=retry_session)

@@ -3,6 +3,13 @@ from tkinter import ttk
 from timeformats import twentyfour, twelve, twentryfour_date, twelve_date, iso, iso_date, iso_week_date, unix, jd, sit, frt, hex, bi, percent, gmst
 from weather import hub
 import os, sys
+import certifi, ssl
+
+print(ssl.get_default_verify_paths())
+print(certifi.where(), os.path.exists(certifi.where()))
+
+os.environ["SSL_CERT_FILE"] = certifi.where()
+os.environ["REQUESTS_CA_BUNDLE"] = certifi.where()
 
 base = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
 
